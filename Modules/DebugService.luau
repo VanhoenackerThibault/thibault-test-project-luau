@@ -22,7 +22,7 @@ local activeBuffs = {}
 local lastUpdate = 0
 local UPDATE_DT = 0.1
 
-local tokenMap = loadstring(game:HttpGet("https://raw.githubusercontent.com/twooto-bot/BssTestScript/refs/heads/main/Helpers/TokenMap.luau"))()
+local tokenMap = loadstring(game:HttpGet("https://raw.githubusercontent.com/VanhoenackerThibault/thibault-test-project-luau/refs/heads/main/Helpers/TokenMap.luau"))()
 
 local WEBHOOK_URL: string = "https://discord.com/api/webhooks/1515773551834038332/Qe_CpwRILhIHCwk5frIamWZd1bMDEpnfrYX-av-n2nFEjc7_HOBYQnyxNlaPxf70XWjg"
 local BILLBOARD_TTL: number = 10
