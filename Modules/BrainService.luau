@@ -98,7 +98,7 @@ function BrainService.Init(services: Services): nil
 
             for _, action: Action in ipairs(actions) do
                 if action.IsEnabled() then
-                    -- print("Running task: ", action.Name)
+                    print("Running task: ", action.Name)
                     action.Run()
                     break
                 end
