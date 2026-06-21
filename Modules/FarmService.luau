@@ -5,7 +5,7 @@ local PathfindingService: PathfindingService = game:GetService("PathfindingServi
 local Players: Players = game:GetService("Players")
 local Workspace: Workspace = game:GetService("Workspace")
 local ReplicatedStorage: ReplicatedStorage = game:GetService("ReplicatedStorage")
-local tokenMap = loadstring(game:HttpGet("https://raw.githubusercontent.com/twooto-bot/BssTestScript/refs/heads/main/Helpers/TokenMap.luau"))()
+local tokenMap = loadstring(game:HttpGet("https://raw.githubusercontent.com/VanhoenackerThibault/thibault-test-project-luau/refs/heads/main/Helpers/TokenMap.luau"))()
 
 -- ==== variables ==== --
 local localPlayer: Player = Players.LocalPlayer
