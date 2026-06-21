@@ -155,7 +155,6 @@ end
 
 function FarmService._GetPreciseTargets(): { Vector3 }
     if not BotState.farmPrecision then
-        print(BotState.farmPrecision)
         return {}
     end
 
@@ -171,7 +170,6 @@ function FarmService._GetPreciseTargets(): { Vector3 }
         for _, target: { FEID: number, ID: number, Index: number, Pos: Vector3 } in chain do
 
             if alreadyRegisteredPrecision[target] then
-                warn("was aleady a target")
                 continue
             end
 
