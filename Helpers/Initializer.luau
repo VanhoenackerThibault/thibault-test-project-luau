@@ -1,6 +1,6 @@
 local Initializer = {}
 
-local URL = "https://raw.githubusercontent.com/twooto-bot/BssTestScript/refs/heads/main/"
+local URL = "https://raw.githubusercontent.com/VanhoenackerThibault/thibault-test-project-luau/refs/heads/main/"
 
 local modules = {
     ["TweenService"] = game:HttpGet(URL .. "Core/TweenService.luau"),
