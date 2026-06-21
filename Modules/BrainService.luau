@@ -50,6 +50,13 @@ local actions: { Action } = {
         end,
         Run = function(): nil
             if BrainService.Services and not BotState.farmRunning then
+                for index, item in BrainService.Services do 
+                    print(index, item)
+                end
+
+                for index, item in BrainService.Services.FarmService do 
+                    print(index, item)
+                end
                 BrainService.Services.FarmService.FarmTick()
             end
 
