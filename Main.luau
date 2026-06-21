@@ -1,4 +1,4 @@
-local BotState = loadstring(game:HttpGet("https://raw.githubusercontent.com/twooto-bot/BssTestScript/refs/heads/main/Core/BotState.luau"))()
+local BotState = loadstring(game:HttpGet("https://raw.githubusercontent.com/VanhoenackerThibault/thibault-test-project-luau/refs/heads/main/Core/BotState.luau"))()
 
 _G.State = BotState
 
@@ -17,7 +17,7 @@ end
 
 -- ========== 2. LOAD UI & INITIALIZER ========== --
 local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
-local Initializer = loadstring(game:HttpGet("https://raw.githubusercontent.com/twooto-bot/BssTestScript/refs/heads/main/Helpers/Initializer.luau"))()
+local Initializer = loadstring(game:HttpGet("https://raw.githubusercontent.com/VanhoenackerThibault/thibault-test-project-luau/refs/heads/main/Helpers/Initializer.luau"))()
 
 -- ========== 3. INIT SERVICES ========== --
 
