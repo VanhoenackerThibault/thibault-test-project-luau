@@ -192,11 +192,15 @@ task.spawn(function()
             if not info.Active or info.Owner ~= localPlayer then
                 continue
             end
+
+            for activeActorId, activeInfo in BotState.activePlanters do 
+                if not planterInfo[activeActorId] then 
+                    BotState.activePlanters[activeActorId] = nil
+                end
+            end
         
             ensureGuessedPlantTime(actorId)
             BotState.activePlanters[actorId] = info
-            print(info)
-            print(#BotState.activePlanters)
         end
 	end
 end)
