@@ -172,7 +172,7 @@ function PlanterService._GetBestPlanter(Nectar: string): string?
     end
 
     -- Scan selected planters
-    for _, planter: string in ipairs(BotState.selectedPlanters) do
+    for _, planter: string in BotState.selectedPlanters do
         local planterInfo = panterInfoMap[planter]
         if not planterInfo then continue end
 
