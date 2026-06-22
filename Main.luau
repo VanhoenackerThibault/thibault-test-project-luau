@@ -414,8 +414,8 @@ Planters:Toggle({
 })
 
 Planters:Slider({
-    Title = "Collect every X hours",
-    Desc = "Collect planters every X hours",
+    Title = "Collect when at X percent",
+    Desc = "Collect planters at X percent",
     Step = 1,
     Value = {
         Min = 1,

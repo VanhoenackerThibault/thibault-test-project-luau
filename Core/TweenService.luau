@@ -67,8 +67,7 @@ local function NoClip(state: boolean, root: BasePart): nil
         noClipConnection = nil
     end
 
-    if state then 
-        print("[TweenService] Enabled NoClip")       
+    if state then     
         noClipConnection = runService.PreSimulation:Connect(function()
             for _, inst: Instance in pairs(parent:GetDescendants()) do
                 if inst:IsA('BasePart') and inst.CanCollide then
@@ -149,7 +148,6 @@ local function MoveToLocation(position: Vector3, root: BasePart): nil
 end
 
 function TweenService.TweenPlayer(location): nil
-    print(string.format("[TweenService] Starting tween to position %s", tostring(location)))
 
     -- If currently tweening, wait for it to finish first
     if BotState.tweening then
@@ -171,11 +169,9 @@ function TweenService.TweenPlayer(location): nil
     CreateLinearVelocity(char, root)
     MoveToLocation(location, root)
 
-    print("[TweenService] Awaiting tween completion")
     TweenService.AwaitTween()
     CleanUp()
 
-    print("[TweenService] Tween completed and resources cleaned up")
     return
 end
 

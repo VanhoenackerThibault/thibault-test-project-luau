@@ -214,22 +214,18 @@ function PlanterService._CollectPlanter(position: Vector3, planterId: number)
         return 
     end
 
-    PlanterService.Services.TweenService.TweenPlayer(position)
+    PlanterService.Services.TweenService.TweenPlayer(position + Vector3.new(0, 10, 0))
 
     task.wait(0.5)
 
     planterCollectEvent:FireServer(planterId)
 
-    if not BotState.activePlanters[planterId] then 
-        print("[PlanterService] Planter Collected")
-    else
-        warn("[PlanterService] Collecting planter failed")
-    end
+    print("[PlanterService] Planter Collected")
 end
 
 function PlanterService._CheckCollectEveryHour(): { any }
     local selectedPlanters = {}
-
+    print(#BotState.activePlanters)
     for _, planter in BotState.activePlanters do
         if (planter.guessedPlantTime + (BotState.collectEvery * 60)) <= tick() then 
             print("planter has stayed long enough, time to go")
@@ -242,7 +238,7 @@ end
 
 function PlanterService._CheckGrowthPercent(): { any }
     local selectedPlanters = {}
-
+    print(#BotState.activePlanters)
     for _, planter in BotState.activePlanters do
         if planter.GrowthPercent >= (BotState.collectAtPercentage / 100) then 
             print("planter has grown enough, time to go")
@@ -293,7 +289,7 @@ function PlanterService.PlanterTick()
 
     local nectars: { any } = BotState.playerData.Totals.Nectar
 
-
+    
 
     return 
 end
