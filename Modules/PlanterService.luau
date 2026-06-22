@@ -220,7 +220,15 @@ function PlanterService._CollectPlanter(position: Vector3, planterId: number)
 
     planterCollectEvent:FireServer(planterId)
 
-    print("[PlanterService] Planter Collected")
+    for index, item in BotState.activePlanters do
+        print(index, item)
+    end
+
+    if not BotState.activePlanters[planterId] then 
+        print("[PlanterService] Planter Collected")
+    else
+        warn("[PlanterService] planter was not collected")
+    end
 end
 
 function PlanterService._CheckCollectEveryHour(): { any }
@@ -289,7 +297,7 @@ function PlanterService.PlanterTick()
 
     local nectars: { any } = BotState.playerData.Totals.Nectar
 
-    
+
 
     return 
 end

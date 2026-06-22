@@ -183,7 +183,7 @@ local function ensureGuessedPlantTime(actorId)
 end
 
 task.spawn(function()
-	while task.wait(5) do
+	while task.wait(0.1) do
 		if not planterInfo then
             continue
 		end
@@ -195,11 +195,8 @@ task.spawn(function()
         
             ensureGuessedPlantTime(actorId)
             BotState.activePlanters[actorId] = info
-
-            print("====================================================================")
-            for index, item in BotState.activePlanters[actorId] do
-                print(index, item)
-            end
+            print(info)
+            print(#BotState.activePlanters)
         end
 	end
 end)
