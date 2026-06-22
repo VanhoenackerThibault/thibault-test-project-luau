@@ -277,17 +277,23 @@ function PlanterService.PlanterTick()
         collectPlanters = PlanterService._CheckGrowthPercent()
     end
 
-    if not collectPlanters or #collectPlanters == 0 then 
+    if not collectPlanters then 
+        warn("[PlanterService] collectPlanters = nil")
+        return
+    end
+
+    if #collectPlanters == 0 then 
         warn("[PlanterService] No planters to collect")
-        -- return
+        return
+    end
+
+    for _, planter in collectPlanters do 
+        PlanterService._CollectPlanter(planter.Pos, planter.ActorID)
     end
 
     local nectars: { any } = BotState.playerData.Totals.Nectar
 
-    print(#collectPlanters)
-    for name, time in nectars do 
-        print(name, time)
-    end
+
 
     return 
 end
