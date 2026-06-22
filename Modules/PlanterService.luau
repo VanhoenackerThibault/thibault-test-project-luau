@@ -243,7 +243,7 @@ end
 function PlanterService._CheckCollectEveryHour(): { any }
     local selectedPlanters = {}
 
-    for _, planter in BotState.activePlanters do
+    for _, planter in pairs(BotState.activePlanters) do
         local collectAfter = planter.guessedPlantTime + (BotState.collectEvery * 60 * 60)
         print(collectAfter, tick())
         if collectAfter <= tick() then
@@ -258,7 +258,7 @@ end
 function PlanterService._CheckGrowthPercent(): { any }
     local selectedPlanters = {}
     
-    for _, planter in BotState.activePlanters do
+    for _, planter in pairs(BotState.activePlanters) do
         if planter.GrowthPercent >= (BotState.collectAtPercentage / 100) then 
             print("planter has grown enough, time to go")
             table.insert(selectedPlanters, planter)
@@ -285,7 +285,7 @@ end
 
 function PlanterService.CanFarmPlanter(): boolean
     local collectPlanters
-    print(#BotState.activePlanters)
+
     if #BotState.activePlanters == 0 then 
         return true
     end
@@ -316,15 +316,7 @@ function PlanterService.PlanterTick()
         collectPlanters = PlanterService._CheckGrowthPercent()
     end
 
-    if not collectPlanters then 
-        return
-    end
-
-    if #collectPlanters == 0 then 
-        return
-    end
-
-    if #collectPlanters > 0 then 
+    if collectPlanters and #collectPlanters > 0 then 
         for _, planter in collectPlanters do 
             PlanterService._CollectPlanter(planter.Pos, planter.ActorID)
         end
@@ -337,6 +329,7 @@ function PlanterService.PlanterTick()
 
     for nectar, info in settings do 
         if not info.enabled then 
+            print("nectar not enabled in settings")
             continue
         end
 
@@ -346,8 +339,10 @@ function PlanterService.PlanterTick()
         end
 
         local time = nectars[nectar]
+        print(time)
 
         if time and ((info.hours * 60) * 60) < time then 
+            print("adding ", nectar ," into planters table")
             table.insert(planters, nectar)
         end
     end
