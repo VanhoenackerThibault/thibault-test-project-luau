@@ -283,7 +283,6 @@ function PlanterService.CanFarmPlanter(): boolean
     local collectPlanters
 
     if #BotState.activePlanters == 0 then 
-        print("returning true")
         return true
     end
     
@@ -294,16 +293,13 @@ function PlanterService.CanFarmPlanter(): boolean
     end
 
     if not collectPlanters then 
-        print("returning false")
         return false
     end
 
     if #collectPlanters == 0 then 
-        print("returning fales")
         return false
     end
 
-    print("returning true")
     return true
 end
 
@@ -317,12 +313,10 @@ function PlanterService.PlanterTick()
     end
 
     if not collectPlanters then 
-        warn("[PlanterService] collectPlanters = nil")
         return
     end
 
     if #collectPlanters == 0 then 
-        warn("[PlanterService] No planters to collect")
         return
     end
 
