@@ -7,10 +7,15 @@ local EventsModule: ModuleScript = ReplicatedStorage:WaitForChild("Events") :: M
 local BuffsModule: ModuleScript = ReplicatedStorage:FindFirstChild("Buffs") :: ModuleScript
 local OstimeModule: ModuleScript = ReplicatedStorage:FindFirstChild("OsTime") :: ModuleScript
 local LocalFXEvent: RemoteEvent = EventsModule:WaitForChild("LocalFX") :: RemoteEvent
+local PlanterTypesModule: ModuleScript = ReplicatedStorage:WaitForChild("PlanterTypes") :: ModuleScript
+local LocalPlantersModule: ModuleScript = ReplicatedStorage:WaitForChild("LocalPlanters") :: ModuleScript
+local PlanterTypes = require(PlanterTypesModule)
+local LocalPlanters = require(LocalPlantersModule)
 local Buffs = require(BuffsModule)
 local Events = require(EventsModule)
 local OsTime = require(OstimeModule)
 
+local planterInfo = debug.getupvalue(LocalPlanters.UpdatePlanter, 1)
 local TrackerService = {}
 
 function TrackerService.Init(services)
@@ -164,6 +169,39 @@ Events.ClientListen("ServerBuffEvent", function(action: string, buffName: string
         end
 
     end
+end)
+
+local function ensureGuessedPlantTime(actorId)
+	if not planterInfo then return end
+	local info = planterInfo[actorId]
+	if not info or not info.Active or info.Owner ~= localPlayer then return end
+
+	local def = PlanterTypes.Get(info.Type)
+	if not def or not def.MaxGrowth or not info.GrowthPercent then return end
+
+	planterInfo[actorId].guessedPlantTime = OsTime() - (info.GrowthPercent * def.MaxGrowth)
+end
+
+task.spawn(function()
+	while task.wait(5) do
+		if not planterInfo then
+            continue
+		end
+        
+        for actorId, info in pairs(planterInfo) do
+            if not info.Active or info.Owner ~= localPlayer then
+                continue
+            end
+        
+            ensureGuessedPlantTime(actorId)
+            BotState.activePlanters[actorId] = info
+
+            print("====================================================================")
+            for index, item in BotState.activePlanters[actorId] do
+                print(index, item)
+            end
+        end
+	end
 end)
 
 task.spawn(function()

@@ -20,10 +20,10 @@ local alreadyRegisteredPrecision: { FEID: number?, ID: number?, Index: number?, 
 
 -- ==== Constants ==== --
 local COLLECT_RADIUS: number = 75
-local LIST_SIZE: number = 2
+local LIST_SIZE: number = 1
 
 local PATHFINDING_PARAMS = {
-    AgentRadius = 2,
+    AgentRadius = 1,
     AgentHeight = 5,
     AgentCanJump = false,
     AgentCanClimb = false,

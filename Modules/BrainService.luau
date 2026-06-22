@@ -14,10 +14,15 @@ export type StartUpService = {
     ClaimHive: () -> nil,
 }
 
+export type PlanterService = {
+    PlanterTick: () -> nil,
+}
+
 export type Services = {
     FarmService: FarmServiceType,
     ConvertService: ConvertService,
-    StartUpService: StartUpService
+    StartUpService: StartUpService,
+    PlanterService: PlanterService
 }
 
 export type BrainServiceType = {
@@ -67,6 +72,20 @@ local actions: { Action } = {
                 BrainService.Services.ConvertService.ConvertPollen()
             end
 
+            return
+        end,
+    },
+    {
+        Name = "Planter",
+        Priority = 100,
+        IsEnabled = function(): boolean
+            return BotState.autoPlanter
+        end,
+        Run = function(): nil
+            if BrainService.Services then
+                BrainService.Services.PlanterService.PlanterTick()
+            end
+    
             return
         end,
     },

@@ -30,7 +30,14 @@ export type BotState = {
     importantTokens: { string },
     selectedPlanters: { string },
     nectarSettings: { [string]: {hours: number, priority: number, enabled: boolean}},
-    autoPlanter: boolean
+    autoPlanter: boolean,
+    activePlanters: { [number]: any },
+    blackListedFields: { string },
+    collectEveryEnabled: boolean,
+    collectEvery: number,
+    collectAtPercentageEnabled: boolean,
+    collectAtPercentage: number,
+    allowedPlanters: number
 }
 
 local BotState: BotState = {
@@ -69,7 +76,14 @@ local BotState: BotState = {
         Motivating   = { enabled = false, hours = 0, priority = 1 },
         Comforting   = { enabled = false, hours = 0, priority = 1 },
     },
-    autoPlanter = false
+    autoPlanter = false,
+    activePlanters = {},
+    blackListedFields = {},
+    collectEveryEnabled = false,
+    collectEvery = 2,
+    collectAtPercentageEnabled = false,
+    collectAtPercentage = 100,
+    allowedPlanters = 3
 }
 
 return BotState

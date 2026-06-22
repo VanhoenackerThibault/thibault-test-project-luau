@@ -304,6 +304,19 @@ Planters:Toggle({
 })
 
 Planters:Dropdown({
+    Title = "BlackListed Fields",
+    Desc = "Select a field where script cant place planters",
+    Values = FieldsService.FieldDropdownValues,
+    Multi = true,
+    Value = "None",
+    Callback = function(option: any): nil
+        BotState.blackListedFields = httpService:JSONEncode(option)
+        print(httpService:JSONEncode(option))
+        return
+    end,
+})
+
+Planters:Dropdown({
     Title = "Planters",
     Desc = "Select allowed planters",
     Values = {
@@ -342,8 +355,77 @@ Planters:Dropdown({
     Multi = false,
     Callback = function(option) 
         -- option is a table: { "Category A", "Category B" }
-        print("Categories selected: " .. game:GetService("HttpService"):JSONEncode(option)) 
+        print("Categories selected: " .. httpService:JSONEncode(option)) 
     end
+})
+
+Planters:Slider({
+    Title = "Alowed planters",
+    Desc = "The amount of planters the script is allowed to plant",
+    Step = 1,
+    Value = {
+        Min = 1,
+        Max = 3,
+        Default = 3,
+    },
+    Callback = function(value: number): nil
+        BotState.allowedPlanters = value
+        return
+    end,
+})
+
+Planters:Toggle({
+    Title = "Collect every hour",
+    Desc = "collect every hour",
+    Icon = "bird",
+    Type = "Checkbox",
+    Value = false,
+    Callback = function(state: boolean): nil
+        BotState.collectEveryEnabled = state
+        return
+    end,
+})
+
+Planters:Slider({
+    Title = "Collect every X hours",
+    Desc = "Collect planters every X hours",
+    Step = 1,
+    Value = {
+        Min = 1,
+        Max = 300,
+        Default = 120,
+    },
+    Callback = function(value: number): nil
+        BotState.collectEvery = value
+        return
+    end,
+})
+
+Planters:Toggle({
+    Title = "Collect at Percentage",
+    Desc = "collect every hour",
+    Icon = "bird",
+    Type = "Checkbox",
+    Value = false,
+    Callback = function(state: boolean): nil
+        BotState.collectAtPercentageEnabled = state
+        return
+    end,
+})
+
+Planters:Slider({
+    Title = "Collect every X hours",
+    Desc = "Collect planters every X hours",
+    Step = 1,
+    Value = {
+        Min = 1,
+        Max = 100,
+        Default = 100,
+    },
+    Callback = function(value: number): nil
+        BotState.collectAtPercentage = value
+        return
+    end,
 })
 
 --------------------------------------------------

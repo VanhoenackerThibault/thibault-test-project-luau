@@ -14,6 +14,7 @@ local modules = {
     ["GuiUpdateHelper"] = game:HttpGet(URL .. "Helpers/GuiUpdateHelper.luau"),
     ["WorldService"] = game:HttpGet(URL .. "Core/WorldService.luau"),
     ["TrackerService"] = game:HttpGet(URL .. "Modules/TrackerService.luau"),
+    ["PlanterService"] = game:HttpGet(URL .. "Modules/PlanterService.luau"),
 }
 
 function Initializer.LoadServices()
