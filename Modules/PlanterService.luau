@@ -8,6 +8,7 @@ local replicatedStorage: ReplicatedStorage = game:GetService("ReplicatedStorage"
 local events: ModuleScript = replicatedStorage:WaitForChild("Events") :: ModuleScript
 local planterCollectEvent: RemoteEvent = events:WaitForChild("PlanterModelCollect") :: RemoteEvent
 local PlayerActivesCommand: RemoteEvent = events:WaitForChild("PlayerActivesCommand"):: RemoteEvent
+local clientStatCache = require(game.ReplicatedStorage.ClientStatCache)
 
 local PlanterService = {}
 
@@ -224,11 +225,9 @@ function PlanterService._CollectPlanter(position: Vector3, planterId: number)
         print(index, item)
     end
 
-    if not BotState.activePlanters[planterId] then 
-        print("[PlanterService] Planter Collected")
-    else
-        warn("[PlanterService] planter was not collected")
-    end
+    BotState.activePlanters[planterId] = nil
+
+    print("[PlanterService] Planter Collected")
 end
 
 function PlanterService._CheckCollectEveryHour(): { any }
@@ -272,6 +271,24 @@ function PlanterService.PlantPlanter(position: Vector3, planter: string)
     print("[PlanterService] Planter Placed")
 end
 
+function PlanterService.CanFarmPlanter()
+    local collectPlanters
+    
+    if BotState.collectEveryEnabled then 
+        collectPlanters = PlanterService._CheckCollectEveryHour()
+    elseif BotState.collectAtPercentageEnabled then
+        collectPlanters = PlanterService._CheckGrowthPercent()
+    end
+
+    if not collectPlanters then 
+        return false
+    end
+
+    if #collectPlanters == 0 then 
+        return false
+    end
+end
+
 function PlanterService.PlanterTick()
     local collectPlanters
 
@@ -295,9 +312,38 @@ function PlanterService.PlanterTick()
         PlanterService._CollectPlanter(planter.Pos, planter.ActorID)
     end
 
+    BotState.playerData = clientStatCache:Get()
     local nectars: { any } = BotState.playerData.Totals.Nectar
+    local settings = BotState.nectarSettings
+
+    local planters = {}
 
 
+    for nectar, info in settings do 
+
+
+
+        -- if info.hours < nectars.nectar then 
+        --     highestPriority = info.priority
+        -- end
+
+        if info.enabled then 
+            table.insert(planters, nectar)
+        end
+
+    end
+
+    if not planters then 
+        return
+    end
+
+    if #planters == 0 then 
+        return
+    end
+
+    for _, item in planters do 
+        PlanterService._GetBestPlanter(item)
+    end
 
     return 
 end

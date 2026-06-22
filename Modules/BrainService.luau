@@ -16,6 +16,7 @@ export type StartUpService = {
 
 export type PlanterService = {
     PlanterTick: () -> nil,
+    CanFarmPlanter: () -> nil
 }
 
 export type Services = {
@@ -79,7 +80,7 @@ local actions: { Action } = {
         Name = "Planter",
         Priority = 100,
         IsEnabled = function(): boolean
-            return BotState.autoPlanter
+            return BotState.autoPlanter and BrainService.Services.PlanterService.CanFarmPlanter()
         end,
         Run = function(): nil
             if BrainService.Services then
