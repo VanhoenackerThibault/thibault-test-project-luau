@@ -165,6 +165,12 @@ function PlanterService._GetBestPlanter(Nectar: string): string?
         return nil
     end
 
+    print(#BotState.selectedPlanters)
+
+    if #BotState.selectedPlanters == 0 then 
+        warn("No planter selected")
+    end
+
     -- Scan selected planters
     for _, planter: string in ipairs(BotState.selectedPlanters) do
         local planterInfo = panterInfoMap[planter]
@@ -326,8 +332,6 @@ function PlanterService.PlanterTick()
         end
     end
 
-
-    BotState.playerData = clientStatCache:Get()
     local nectars: { any } = BotState.nactarTimers
     local settings = BotState.nectarSettings
 
@@ -339,7 +343,13 @@ function PlanterService.PlanterTick()
             continue
         end
 
-        if ((info.hours * 60) * 60) < nectars[nectar] then 
+        for index, item in nectars do 
+            print(nectar, index, item)
+        end
+
+        local time = nectars[nectar]
+
+        if time and ((info.hours * 60) * 60) < time then 
             table.insert(planters, nectar)
         end
     end
