@@ -184,6 +184,12 @@ end
 
 task.spawn(function()
 	while task.wait(0.1) do
+        for activeActorId, activeInfo in BotState.activePlanters do 
+            if not planterInfo[activeActorId] then 
+                BotState.activePlanters[activeActorId] = nil
+            end
+        end
+
 		if not planterInfo then
             continue
 		end
@@ -193,11 +199,6 @@ task.spawn(function()
                 continue
             end
 
-            for activeActorId, activeInfo in BotState.activePlanters do 
-                if not planterInfo[activeActorId] then 
-                    BotState.activePlanters[activeActorId] = nil
-                end
-            end
         
             ensureGuessedPlantTime(actorId)
             BotState.activePlanters[actorId] = info

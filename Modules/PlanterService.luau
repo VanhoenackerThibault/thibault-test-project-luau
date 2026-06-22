@@ -235,7 +235,7 @@ function PlanterService._CheckCollectEveryHour(): { any }
     local selectedPlanters = {}
     print(#BotState.activePlanters)
     for _, planter in BotState.activePlanters do
-        if (planter.guessedPlantTime + (BotState.collectEvery * 60)) <= tick() then 
+        if (planter.guessedPlantTime + ((BotState.collectEvery * 60) * 60) ) <= tick() then 
             print("planter has stayed long enough, time to go")
             table.insert(selectedPlanters, planter)
         end
