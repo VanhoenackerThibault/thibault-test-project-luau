@@ -338,7 +338,7 @@ Planters:Dropdown({
     Value = { "Plastic" },
     Multi = true,
     Callback = function(option) 
-        BotState.selectedPlanters = httpService:JSONEncode(option)
+        BotState.selectedPlanters = option
     end
 })
 

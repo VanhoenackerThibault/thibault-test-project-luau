@@ -134,7 +134,6 @@ local function GetNectars()
 
             BotState.nactarTimers[nectarType] = remaining
 
-            print(BotState.nactarTimers[nectarType])
         end
     end
 
