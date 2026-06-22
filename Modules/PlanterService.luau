@@ -249,8 +249,6 @@ function PlanterService._CheckGrowthPercent(): { any }
     local selectedPlanters = {}
     
     for _, planter in BotState.activePlanters do
-        print(planter.GrowthPercent)
-        print((BotState.collectAtPercentage / 100))
         if planter.GrowthPercent >= (BotState.collectAtPercentage / 100) then 
             print("planter has grown enough, time to go")
             table.insert(selectedPlanters, planter)
@@ -322,7 +320,7 @@ function PlanterService.PlanterTick()
         return
     end
 
-    if collectPlanters > 0 then 
+    if #collectPlanters > 0 then 
         for _, planter in collectPlanters do 
             PlanterService._CollectPlanter(planter.Pos, planter.ActorID)
         end
