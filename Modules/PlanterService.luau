@@ -251,7 +251,7 @@ function PlanterService.PlantPlanter(position: Vector3, planter: string)
 end
 
 function PlanterService.PlanterTick()
-    PlanterService.CheckCollectEveryHour()
+    PlanterService._CheckCollectEveryHour()
     return 
 end
 
