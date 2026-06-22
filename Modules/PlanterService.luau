@@ -228,11 +228,29 @@ function PlanterService._CollectPlanter(position: Vector3, planterId: number)
 end
 
 function PlanterService._CheckCollectEveryHour(): { any }
-    for _, planter in BotState.activePlanters do 
-        print(planter.guessedPlantTime)
+    local selectedPlanters = {}
+
+    for _, planter in BotState.activePlanters do
+        if (planter.guessedPlantTime + (BotState.collectEvery * 60)) <= tick() then 
+            print("planter has stayed long enough, time to go")
+            table.insert(selectedPlanters, planter)
+        end
     end
 
-    return {}
+    return selectedPlanters
+end
+
+function PlanterService._CheckGrowthPercent(): { any }
+    local selectedPlanters = {}
+
+    for _, planter in BotState.activePlanters do
+        if planter.GrowthPercent >= (BotState.collectAtPercentage / 100) then 
+            print("planter has grown enough, time to go")
+            table.insert(selectedPlanters, planter)
+        end
+    end
+
+    return selectedPlanters
 end
 
 function PlanterService.PlantPlanter(position: Vector3, planter: string)
@@ -251,7 +269,26 @@ function PlanterService.PlantPlanter(position: Vector3, planter: string)
 end
 
 function PlanterService.PlanterTick()
-    PlanterService._CheckCollectEveryHour()
+    local collectPlanters
+
+    if BotState.collectEveryEnabled then 
+        collectPlanters = PlanterService._CheckCollectEveryHour()
+    elseif BotState.collectAtPercentageEnabled then
+        collectPlanters = PlanterService._CheckGrowthPercent()
+    end
+
+    if #collectPlanters == 0 then 
+        warn("[PlanterService] No planters to collect")
+        -- return
+    end
+
+    local nectars: { any } = BotState.playerData.Totals.Nectar
+
+    print(#collectPlanters)
+    for name, time in nectars do 
+        print(name, time)
+    end
+
     return 
 end
 

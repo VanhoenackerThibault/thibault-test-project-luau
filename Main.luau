@@ -375,8 +375,8 @@ Planters:Slider({
 })
 
 Planters:Toggle({
-    Title = "Collect every hour",
-    Desc = "collect every hour",
+    Title = "Collect every time",
+    Desc = "collect every time",
     Icon = "bird",
     Type = "Checkbox",
     Value = false,
@@ -387,8 +387,8 @@ Planters:Toggle({
 })
 
 Planters:Slider({
-    Title = "Collect every X hours",
-    Desc = "Collect planters every X hours",
+    Title = "Collect every X Min",
+    Desc = "Collect planters every X Min",
     Step = 1,
     Value = {
         Min = 1,
