@@ -277,7 +277,7 @@ function PlanterService.PlanterTick()
         collectPlanters = PlanterService._CheckGrowthPercent()
     end
 
-    if #collectPlanters == 0 then 
+    if not collectPlanters or #collectPlanters == 0 then 
         warn("[PlanterService] No planters to collect")
         -- return
     end
