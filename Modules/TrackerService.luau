@@ -9,6 +9,10 @@ local OstimeModule: ModuleScript = ReplicatedStorage:FindFirstChild("OsTime") ::
 local LocalFXEvent: RemoteEvent = EventsModule:WaitForChild("LocalFX") :: RemoteEvent
 local PlanterTypesModule: ModuleScript = ReplicatedStorage:WaitForChild("PlanterTypes") :: ModuleScript
 local LocalPlantersModule: ModuleScript = ReplicatedStorage:WaitForChild("LocalPlanters") :: ModuleScript
+local StatModifiersModule: ModuleScript = ReplicatedStorage:WaitForChild("StatModifiers") :: ModuleScript
+local NectarTypesModule: ModuleScript = ReplicatedStorage:WaitForChild("NectarTypes") :: ModuleScript
+local StatModifiers = require(StatModifiersModule)
+local NectarTypes = require(NectarTypesModule)
 local PlanterTypes = require(PlanterTypesModule)
 local LocalPlanters = require(LocalPlantersModule)
 local Buffs = require(BuffsModule)
@@ -17,6 +21,14 @@ local OsTime = require(OstimeModule)
 
 local planterInfo = debug.getupvalue(LocalPlanters.UpdatePlanter, 1)
 local TrackerService = {}
+
+local NECTAR_BUFF_NAMES = {
+    ["Refreshing Nectar"]  = true,
+    ["Comforting Nectar"]  = true,
+    ["Motivating Nectar"]  = true,
+    ["Satisfying Nectar"]  = true,
+    ["Invigorating Nectar"] = true,
+}
 
 function TrackerService.Init(services)
     TrackerService.Services = services
@@ -63,6 +75,71 @@ local function addOrUpdateBuff(buffName, startTime, dur, combo)
         info.combo = combo
         info.def = def
     end
+end
+
+local function formatSeconds(seconds: number): string
+    seconds = math.max(0, math.floor(seconds + 0.5))
+    local h = math.floor(seconds / 3600)
+    local m = math.floor((seconds % 3600) / 60)
+    local s = seconds % 60
+    if h > 0 then
+        return string.format("%d:%02d:%02d", h, m, s)
+    else
+        return string.format("%d:%02d", m, s)
+    end
+end
+
+local function getStatsFunc()
+    local StatsModule: ModuleScript = ReplicatedStorage:FindFirstChild("ClientStatCache") :: ModuleScript
+
+    if not StatsModule then
+        return nil
+    end
+
+    local Stats = require(StatsModule)
+
+    if typeof(Stats) == "table" then
+        if typeof(Stats.Get) == "function" then
+            return Stats.Get
+        end
+    end
+
+    return nil
+end
+
+local function GetNectars()
+    local statsFunc = getStatsFunc()
+
+    local buffsById = StatModifiers.GetBuffs(statsFunc)
+
+    local now = OsTime()
+
+    for _, buffInfo in pairs(buffsById) do
+        local buffName = buffInfo.Type
+
+        if NECTAR_BUFF_NAMES[buffName] then
+
+            local dur = buffInfo.Dur
+            local startTime = buffInfo.Start
+            local remaining
+
+            if dur and startTime then
+                remaining = dur - (now - startTime)
+                if remaining < 0 then remaining = 0 end
+            else
+                remaining = 0
+            end
+
+            local nectarType = buffName:gsub(" Nectar$", "")
+
+            BotState.nactarTimers[nectarType] = remaining
+
+            for index, item in BotState.nactarTimers do
+                print(index, item)
+            end
+        end
+    end
+
 end
 
 LocalFXEvent.OnClientEvent:Connect(function(effectName: string, data: {Action: string, Pos: Vector3, ID: number, FEID: number, Player: Player})
@@ -208,6 +285,13 @@ end)
 
 task.spawn(function()
     while task.wait(0.1) do 
+
+
+        -- get nectars 
+        GetNectars()
+
+
+
         local now = OsTime()
         local toRemove = {}
 

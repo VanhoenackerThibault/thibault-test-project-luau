@@ -232,9 +232,11 @@ end
 
 function PlanterService._CheckCollectEveryHour(): { any }
     local selectedPlanters = {}
-    print(#BotState.activePlanters)
+
     for _, planter in BotState.activePlanters do
-        if (planter.guessedPlantTime + ((BotState.collectEvery * 60) * 60) ) <= tick() then 
+        local collectAfter = planter.guessedPlantTime + (BotState.collectEvery * 60 * 60)
+        print(collectAfter, tick())
+        if collectAfter <= tick() then
             print("planter has stayed long enough, time to go")
             table.insert(selectedPlanters, planter)
         end
@@ -245,8 +247,10 @@ end
 
 function PlanterService._CheckGrowthPercent(): { any }
     local selectedPlanters = {}
-    print(#BotState.activePlanters)
+    
     for _, planter in BotState.activePlanters do
+        print(planter.GrowthPercent)
+        print((BotState.collectAtPercentage / 100))
         if planter.GrowthPercent >= (BotState.collectAtPercentage / 100) then 
             print("planter has grown enough, time to go")
             table.insert(selectedPlanters, planter)
@@ -271,8 +275,12 @@ function PlanterService.PlantPlanter(position: Vector3, planter: string)
     print("[PlanterService] Planter Placed")
 end
 
-function PlanterService.CanFarmPlanter()
+function PlanterService.CanFarmPlanter(): boolean
     local collectPlanters
+
+    if #BotState.activePlanters == 0 then 
+        return true
+    end
     
     if BotState.collectEveryEnabled then 
         collectPlanters = PlanterService._CheckCollectEveryHour()
@@ -287,6 +295,8 @@ function PlanterService.CanFarmPlanter()
     if #collectPlanters == 0 then 
         return false
     end
+
+    return true
 end
 
 function PlanterService.PlanterTick()
@@ -308,30 +318,45 @@ function PlanterService.PlanterTick()
         return
     end
 
-    for _, planter in collectPlanters do 
-        PlanterService._CollectPlanter(planter.Pos, planter.ActorID)
+    if collectPlanters > 0 then 
+        for _, planter in collectPlanters do 
+            PlanterService._CollectPlanter(planter.Pos, planter.ActorID)
+        end
     end
 
+
     BotState.playerData = clientStatCache:Get()
-    local nectars: { any } = BotState.playerData.Totals.Nectar
+    local nectars: { any } = BotState.nactarTimers
     local settings = BotState.nectarSettings
 
     local planters = {}
 
 
     for nectar, info in settings do 
-
-
-
-        -- if info.hours < nectars.nectar then 
-        --     highestPriority = info.priority
-        -- end
-
-        if info.enabled then 
-            table.insert(planters, nectar)
+        if not info.enabled then 
+            continue
         end
 
+        if ((info.hours * 60) * 60) < nectars[nectar] then 
+            table.insert(planters, nectar)
+        end
     end
+
+
+    local littlelestTime = math.huge
+    local selectedNectar = nil
+
+    if #planters < BotState.allowedPlanters then
+
+        for nectar, time in nectars do 
+            if not littlelestTime or time < littlelestTime then 
+                littlelestTime = time
+                selectedNectar = nectar
+            end
+        end
+    end
+    
+    print(selectedNectar)
 
     if not planters then 
         return
