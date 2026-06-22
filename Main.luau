@@ -375,8 +375,8 @@ Planters:Slider({
 })
 
 Planters:Toggle({
-    Title = "Collect every time",
-    Desc = "collect every time",
+    Title = "Collect every X Hours",
+    Desc = "collect every X Hours",
     Icon = "bird",
     Type = "Checkbox",
     Value = false,
@@ -387,13 +387,13 @@ Planters:Toggle({
 })
 
 Planters:Slider({
-    Title = "Collect every X Min",
-    Desc = "Collect planters every X Min",
+    Title = "Collect every X hour",
+    Desc = "Collect planters every X hour",
     Step = 1,
     Value = {
         Min = 1,
-        Max = 300,
-        Default = 120,
+        Max = 6,
+        Default = 2,
     },
     Callback = function(value: number): nil
         BotState.collectEvery = value
