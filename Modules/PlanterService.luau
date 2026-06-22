@@ -335,12 +335,11 @@ function PlanterService.PlanterTick()
 
     local planters = {}
 
-
     for nectar, info in settings do 
         if not info.enabled then 
             continue
         end
-        
+
         print("just before print nectars")
         for index, item in nectars do 
             print(nectar, index, item)
@@ -356,6 +355,11 @@ function PlanterService.PlanterTick()
 
     local littlelestTime = math.huge
     local selectedNectar = nil
+
+    if not planters or #planters == 0 then 
+        warn("No planters selected")
+        return
+    end
 
     if #planters < BotState.allowedPlanters then
 
