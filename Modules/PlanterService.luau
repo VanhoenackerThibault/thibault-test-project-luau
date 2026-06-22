@@ -285,7 +285,7 @@ end
 
 function PlanterService.CanFarmPlanter(): boolean
     local collectPlanters
-
+    print(#BotState.activePlanters)
     if #BotState.activePlanters == 0 then 
         return true
     end
