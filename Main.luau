@@ -437,7 +437,7 @@ Planters:Toggle({
     Desc = "Farm Invigorating",
     Icon = "bird",
     Type = "Checkbox",
-    Value = true,
+    Value = false,
     Callback = function(state: boolean): nil
         BotState.nectarSettings.Invigorating.enabled = state
         return
@@ -483,7 +483,7 @@ Planters:Toggle({
     Desc = "Farm Refreshing",
     Icon = "bird",
     Type = "Checkbox",
-    Value = true,
+    Value = false,
     Callback = function(state: boolean): nil
         BotState.nectarSettings.Refreshing.enabled = state
         return
@@ -529,7 +529,7 @@ Planters:Toggle({
     Desc = "Farm Satisfying",
     Icon = "bird",
     Type = "Checkbox",
-    Value = true,
+    Value = false,
     Callback = function(state: boolean): nil
         BotState.nectarSettings.Satisfying.enabled = state
         return
@@ -575,7 +575,7 @@ Planters:Toggle({
     Desc = "Farm Motivating",
     Icon = "bird",
     Type = "Checkbox",
-    Value = true,
+    Value = false,
     Callback = function(state: boolean): nil
         BotState.nectarSettings.Motivating.enabled = state
         return
@@ -621,7 +621,7 @@ Planters:Toggle({
     Desc = "Farm Comforting",
     Icon = "bird",
     Type = "Checkbox",
-    Value = true,
+    Value = false,
     Callback = function(state: boolean): nil
         BotState.nectarSettings.Comforting.enabled = state
         return

@@ -133,6 +133,8 @@ local function GetNectars()
             local nectarType = buffName:gsub(" Nectar$", "")
 
             BotState.nactarTimers[nectarType] = remaining
+
+            print(BotState.nactarTimers[nectarType])
         end
     end
 

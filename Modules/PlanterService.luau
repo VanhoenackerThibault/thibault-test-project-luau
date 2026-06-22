@@ -167,6 +167,10 @@ function PlanterService._GetBestPlanter(Nectar: string): string?
 
     print(#BotState.selectedPlanters)
 
+    for index, item in BotState.selectedPlanters do 
+        print(index, item)
+    end
+
     if #BotState.selectedPlanters == 0 then 
         warn("No planter selected")
     end
@@ -326,7 +330,7 @@ function PlanterService.PlanterTick()
         end
     end
 
-    local nectars: { any } = BotState.nactarTimers
+    local nectars = BotState.nactarTimers
     local settings = BotState.nectarSettings
 
     local planters = {}
@@ -336,7 +340,8 @@ function PlanterService.PlanterTick()
         if not info.enabled then 
             continue
         end
-
+        
+        print("just before print nectars")
         for index, item in nectars do 
             print(nectar, index, item)
         end
