@@ -338,7 +338,7 @@ function PlanterService.PlanterTick()
             print(nectar, index, item)
         end
 
-        local time = nectars[nectar]
+        local time = nectars[nectar] or 0
         print(time)
 
         if time and ((info.hours * 60) * 60) < time then 
