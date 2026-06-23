@@ -223,7 +223,9 @@ function PlanterService._GetBestPlanter(Nectar: string)
     end)
 
     for index, item in selectedPlanterAndField do
-        print(index, item)
+        for index2, item2 in item do 
+            print(index2, item2)
+        end
     end
 
     for _, info in selectedPlanterAndField do 
@@ -240,11 +242,14 @@ function PlanterService._GetBestPlanter(Nectar: string)
             continue
         end
 
-        if not bestPlanter or bestPlanter.NectarBoost < info.NectarBoost and info.PreferedField then 
+        if not bestPlanter or bestPlanter.NectarBoost < info.NectarBoost and info.PreferedField then
+            print(info.Planter, info.NectarBoost, info.PreferedField)
             bestPlanter = info
         end
 
-        if not bestPlanterFallBack or bestPlanterFallBack.NectarBoost < info.NectarBoost and not info.PreferedField then 
+        if not bestPlanterFallBack or bestPlanterFallBack.NectarBoost < info.NectarBoost and not info.PreferedField then
+            print("FALLBACK")
+            print(info.Planter, info.NectarBoost, info.PreferedField)
             bestPlanterFallBack = info
         end
     end
