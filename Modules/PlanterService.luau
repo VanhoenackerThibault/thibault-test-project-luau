@@ -221,11 +221,11 @@ function PlanterService._GetBestPlanter(Nectar: string)
         return table1.NectarBoost > table2.NectarBoost
     end)
 
-    for _, info in selectedPlanterAndField do 
+    for _, info in ipairs(selectedPlanterAndField) do
         local planterUsed = false
 
-        for _, planterInfo in activePlanters do 
-            if planterInfo.Type == info.Planter then 
+        for _, planterInfo in ipairs(activePlanters) do
+            if planterInfo.Type == info.Planter then
                 planterUsed = true
                 break
             end
@@ -236,15 +236,17 @@ function PlanterService._GetBestPlanter(Nectar: string)
         end
 
         print("====================================================================================================")
-        if not bestPlanter and info.PreferedField or bestPlanter.NectarBoost < info.NectarBoost and info.PreferedField then
-            print(info.Planter, info.NectarBoost, info.PreferedField)
-            bestPlanter = info
-            continue
-        end
 
-        if not bestPlanterFallBack and not info.PreferedField or bestPlanterFallBack.NectarBoost < info.NectarBoost and not info.PreferedField then
-            print(info.Planter, info.NectarBoost, info.PreferedField, "FALLBACK")
-            bestPlanterFallBack = info
+        if info.PreferedField then
+            if not bestPlanter or bestPlanter.NectarBoost < info.NectarBoost then
+                print(info.Planter, info.NectarBoost, info.PreferedField, "PREFERD")
+                bestPlanter = info
+            end
+        else
+            if not bestPlanterFallBack or bestPlanterFallBack.NectarBoost < info.NectarBoost then
+                print(info.Planter, info.NectarBoost, info.PreferedField, "FALLBACK")
+                bestPlanterFallBack = info
+            end
         end
     end
 
