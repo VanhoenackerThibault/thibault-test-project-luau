@@ -12,7 +12,7 @@ local clientStatCache = require(game.ReplicatedStorage.ClientStatCache)
 
 local PlanterService = {}
 
-local panterInfoMap = {
+local planterInfoMap = {
     ["Paper"] = {
         Fields = nil,
         NectarBoosts = {
@@ -70,14 +70,14 @@ local panterInfoMap = {
         },
     },
     ["Red Clay"] = {
-        Fields = {"Pepper Patch", "Pumpkin Patch"},
+        Fields = {"Pepper Patch", "Rose Field", "Mushroom Field", "Strawberry Field"},
         NectarBoosts = {
             Invigorating = 1.2,
             Satisfying  = 1.2,
         },
     },
     ["Blue Clay"] = {
-        Fields = {"Blue Flower Field", "Pine Tree Forest"},
+        Fields = {"Blue Flower Field", "Pine Tree Forest", "Bamboo Field", "Stump Field"},
         NectarBoosts = {
             Refreshing = 1.2,
             Comforting  = 1.2,
@@ -98,21 +98,21 @@ local panterInfoMap = {
         },
     },
     ["Heat-Treated"] = {
-        Fields = {"Pepper Patch", "Rose Field"},
+        Fields = {"Pepper Patch", "Rose Field", "Mushroom Field", "Strawberry Field"},
         NectarBoosts = {
             Motivating = 1.3,
             Invigorating  = 1.3,
         },
     },
     ["Hydroponic"] = {
-        Fields = {"Blue Flower Field", "Pine Tree Forest"},
+        Fields = {"Blue Flower Field", "Pine Tree Forest", "Bamboo Field", "Stump Field"},
         NectarBoosts = {
             Refreshing = 1.3,
             Comforting  = 1.3,
         },
     },
     ["Petal"] = {
-        Fields = {"Pineapple Patch", "Dandelion Field"},
+        Fields = {"Pineapple Patch", "Dandelion Field", "Coconut Field", "Sunflower Field", "Pumpkin Patch"},
         NectarBoosts = {
             Satisfying = 1.5,
             Comforting  = 1.5,
@@ -143,10 +143,8 @@ function PlanterService.Init(services)
     PlanterService.Services = services
 end
 
-function PlanterService._GetBestPlanter(Nectar: string): string?
+function PlanterService._GetBestPlanter(Nectar: string)
     local allowedFields: { [string]: true } = {}
-    local bestPlanterName: string? = nil
-    local bestNectarBoost: number? = nil
 
     local nectarFields = fieldsToNactar[Nectar]
     if not nectarFields then
@@ -177,48 +175,45 @@ function PlanterService._GetBestPlanter(Nectar: string): string?
         warn("No planter selected")
     end
 
+    local selectedPlanterAndField = {}
+
     -- Scan selected planters
     for _, planter: string in BotState.selectedPlanters do
-        local planterInfo = panterInfoMap[planter]
+        local planterInfo = planterInfoMap[planter]
         if not planterInfo then continue end
 
-        local boost = planterInfo.NectarBoosts and planterInfo.NectarBoosts[Nectar]
+        local nectarBoost = planterInfo.NectarBoosts[Nectar]
 
-        -- Skip if this planter doesn't boost this nectar at all
-        if not boost then continue end
-        
-        local fields = planterInfo.Fields
+        local fields = PlanterService.Services.FieldsService.FieldInfo
 
-        local matchesAllowedField = false
+        for _, fieldName in allowedFields do
+            local position = nil
 
-        -- If Fields is nil, treat as "global" planter: allowed anywhere
-        if fields == nil then
-            matchesAllowedField = true
-        else
-            -- Check if it can be placed in at least one allowed field
-            for _, fieldName: string in ipairs(fields) do
-                if allowedFields[fieldName] then
-                    matchesAllowedField = true
-                    break
+            for _, field in fields do 
+                if fieldName == field.Name then 
+                    position = field.Position
+                end
+            end
+
+            for _, planterField in planterInfo.Fields do 
+                if fieldName == planterField then 
+                    table.insert(selectedPlanterAndField, {Planter = planter, NectarBoost = nectarBoost or 0, FieldName = fieldName, FieldLocation = position})
                 end
             end
         end
-
-        if matchesAllowedField then
-            if not bestNectarBoost or boost > bestNectarBoost then
-                bestNectarBoost = boost
-                bestPlanterName = planter
-            end
-        end
     end
 
-    if bestPlanterName then
-        print("[PlanterService] Best planter for", Nectar, "is", bestPlanterName, "with boost", bestNectarBoost)
-    else
-        print("[PlanterService] No suitable planter found for", Nectar)
+    for index, item in selectedPlanterAndField do 
+        print(index< " - ", item)
     end
 
-    return bestPlanterName
+    -- if bestPlanterName then
+    --     print("[PlanterService] Best planter for", Nectar, "is", bestPlanterName, "with boost", bestNectarBoost)
+    -- else
+    --     print("[PlanterService] No suitable planter found for", Nectar)
+    -- end
+
+    -- return selectedPlanterAndField
 end
 
 function PlanterService._CollectPlanter(position: Vector3, planterId: number)
