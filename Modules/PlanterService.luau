@@ -161,11 +161,13 @@ function PlanterService._GetBestPlanter(Nectar: string): string?
     end
 
     -- If no allowed fields left, nothing to plant
-    if next(allowedFields) == nil then
+    if not allowedFields then
         return nil
     end
 
     print(#BotState.selectedPlanters)
+
+    print(BotState.selectedPlanters)
 
     for index, item in BotState.selectedPlanters do 
         print(index, item)
@@ -329,13 +331,7 @@ function PlanterService.PlanterTick()
 
     for nectar, info in settings do 
         if not info.enabled then 
-            print("nectar not enabled in settings")
             continue
-        end
-
-        print("just before print nectars")
-        for index, item in nectars do 
-            print(nectar, index, item)
         end
 
         local time = nectars[nectar] or 0
@@ -366,7 +362,7 @@ function PlanterService.PlanterTick()
         end
     end
     
-    print(selectedNectar)
+    print("Selected nectar: ", selectedNectar)
 
     if not planters then 
         return
