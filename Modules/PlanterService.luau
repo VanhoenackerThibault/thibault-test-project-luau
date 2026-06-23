@@ -138,6 +138,23 @@ local fieldsToNactar = {
     Invigorating = {"Clover Field", "Cactus Field", "Mountain Top Field", "Pepper Patch"},
 }
 
+local planterTypeToName = {
+    ["Paper"] = "Paper Planter",
+    ["Ticket"] = "Ticket Planter",
+    ["Sticker"] = "Sticker Planter",
+    ["Festive"] = "Festive Planter",
+    ["Plastic"] = "Plastic Planter",
+    ["Candy"] = "Candy Planter",
+    ["Red Clay"] = "Red Clay Planter",
+    ["Blue Clay"] = "Blue Clay Planter",
+    ["Tacky"] = "Tacky Planter",
+    ["Pesticide"] = "Pesticide Planter",
+    ["Heat-Treated"] = "Heat-Treated Planter",
+    ["Hydroponic"] = "Hydroponic Planter",
+    ["Petal"] = "Petal Planter",
+    ["Plenty"] = "The Planter Of Plenty"
+}
+
 
 function PlanterService.Init(services)
     PlanterService.Services = services
@@ -235,8 +252,6 @@ function PlanterService._GetBestPlanter(Nectar: string)
             continue
         end
 
-        print("====================================================================================================")
-
         if info.PreferedField then
             if not bestPlanter or bestPlanter.NectarBoost < info.NectarBoost then
                 print(info.Planter, info.NectarBoost, info.PreferedField, "PREFERD")
@@ -261,19 +276,6 @@ function PlanterService._GetBestPlanter(Nectar: string)
     end
 
     return nil
-
-    -- if not activePlanters or #activePlanters == 0 then 
-        
-    -- end
-
-
-    -- if bestPlanterName then
-    --     print("[PlanterService] Best planter for", Nectar, "is", bestPlanterName, "with boost", bestNectarBoost)
-    -- else
-    --     print("[PlanterService] No suitable planter found for", Nectar)
-    -- end
-
-    -- return selectedPlanterAndField
 end
 
 function PlanterService._CollectPlanter(position: Vector3, planterId: number)
@@ -427,8 +429,8 @@ function PlanterService.PlanterTick()
 
     for _, item in selectedNectars do 
         local planterInfo = PlanterService._GetBestPlanter(item)
-
-        PlanterService.PlantPlanter(planterInfo.FieldLocation, planterInfo.Planter.PotModel)
+        
+        PlanterService.PlantPlanter(planterInfo.FieldLocation, planterTypeToName[planterInfo.Planter])
     end
 
     return 
