@@ -198,7 +198,6 @@ function PlanterService._GetBestPlanter(Nectar: string)
             end
 
             if not planterInfo.Fields then 
-                print(planter, nectarBoost, fieldName, position)
                 table.insert(selectedPlanterAndField, {Planter = planter, NectarBoost = nectarBoost or 0, FieldName = fieldName, FieldLocation = position, PreferedField = true})
                 continue
             end
@@ -206,18 +205,43 @@ function PlanterService._GetBestPlanter(Nectar: string)
 
             for _, planterField in planterInfo.Fields do 
                 if fieldName == planterField then
-                    print(planter, nectarBoost, fieldName, position)
                     table.insert(selectedPlanterAndField, {Planter = planter, NectarBoost = nectarBoost or 0, FieldName = fieldName, FieldLocation = position, PreferedField = true})
                 end
             end
 
             if selectedPlanterAndFieldLength == #selectedPlanterAndField then
-                print(planter, nectarBoost, fieldName, position, "fallBack")
                 table.insert(selectedPlanterAndField, {Planter = planter, NectarBoost = nectarBoost or 0, FieldName = fieldName, FieldLocation = position, PreferedField = false})
             end
         end
     end
 
+    local bestPlanter = nil
+
+    table.sort(selectedPlanterAndField, function(table1, table2)
+        return table1.NectarBoost > table2.NectarBoost
+    end)
+
+    for index, item in selectedPlanterAndField do
+        print(index, item)
+    end
+
+    for _, info in selectedPlanterAndField do 
+        local planterUsed = false
+
+        for _, planterInfo in activePlanters do 
+            if planterInfo.Type == info.Planter then 
+                planterUsed = true
+                break
+            end
+        end
+
+        if planterUsed then
+            continue
+        end
+
+        
+
+    end
 
     -- if not activePlanters or #activePlanters == 0 then 
         
