@@ -216,6 +216,7 @@ function PlanterService._GetBestPlanter(Nectar: string)
     end
 
     local bestPlanter = nil
+    local bestPlanterFallBack = nil
 
     table.sort(selectedPlanterAndField, function(table1, table2)
         return table1.NectarBoost > table2.NectarBoost
@@ -239,9 +240,26 @@ function PlanterService._GetBestPlanter(Nectar: string)
             continue
         end
 
-        
+        if not bestPlanter or bestPlanter.NectarBoost < info.NectarBoost and info.PreferedField then 
+            bestPlanter = info
+        end
 
+        if not bestPlanterFallBack or bestPlanterFallBack.NectarBoost < info.NectarBoost and not info.PreferedField then 
+            bestPlanterFallBack = info
+        end
     end
+
+    if bestPlanter then 
+        print("Prefered planter")
+        return bestPlanter
+    end
+
+    if bestPlanterFallBack then 
+        print("NOT Prefered planter")
+        return bestPlanterFallBack
+    end
+
+    return nil
 
     -- if not activePlanters or #activePlanters == 0 then 
         
