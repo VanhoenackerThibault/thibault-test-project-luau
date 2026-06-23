@@ -259,7 +259,8 @@ end
 task.spawn(function()
 	while task.wait(0.1) do
         for activeActorId, activeInfo in BotState.activePlanters do 
-            if not planterInfo[activeActorId] then 
+            if not planterInfo[activeActorId] then
+                print("Removing planter")
                 BotState.activePlanters[activeActorId] = nil
             end
         end

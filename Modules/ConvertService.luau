@@ -113,11 +113,9 @@ task.spawn(function()
             end
 
             if start + BotState.waitConvertTime <= tick() then
-                print("[ConvertService] Capacity threshold reached; requesting conversion")
                 BotState.converting = true
                 BotState.farmRunning = false
                 start = nil
-                print("ConvertService setting to false:", BotState.farmRunning )
             end
 
             continue
