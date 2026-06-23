@@ -235,14 +235,14 @@ function PlanterService._GetBestPlanter(Nectar: string)
             continue
         end
 
-        print("==================================================================================================== test")
-        if (bestPlanter.NectarBoost or 0) < info.NectarBoost and info.PreferedField then
+        print("====================================================================================================")
+        if not bestPlanter and info.PreferedField or bestPlanter.NectarBoost < info.NectarBoost and info.PreferedField then
             print(info.Planter, info.NectarBoost, info.PreferedField)
             bestPlanter = info
             continue
         end
 
-        if (bestPlanterFallBack.NectarBoost or 0) < info.NectarBoost and not info.PreferedField then
+        if not bestPlanterFallBack and not info.PreferedField or bestPlanterFallBack.NectarBoost < info.NectarBoost and not info.PreferedField then
             print(info.Planter, info.NectarBoost, info.PreferedField, "FALLBACK")
             bestPlanterFallBack = info
         end
