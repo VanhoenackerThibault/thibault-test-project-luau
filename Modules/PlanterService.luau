@@ -186,8 +186,10 @@ function PlanterService._GetBestPlanter(Nectar: string)
 
         local fields = PlanterService.Services.FieldsService.FieldInfo
 
+        print("====================================================================================================")
         for fieldName, _ in allowedFields do
             local position = nil
+            local selectedPlanterAndFieldLength = #selectedPlanterAndField
 
             for _, field in fields do 
                 if fieldName == field.Name then 
@@ -197,7 +199,7 @@ function PlanterService._GetBestPlanter(Nectar: string)
 
             if not planterInfo.Fields then 
                 print(planter, nectarBoost, fieldName, position)
-                table.insert(selectedPlanterAndField, {Planter = planter, NectarBoost = nectarBoost or 0, FieldName = fieldName, FieldLocation = position})
+                table.insert(selectedPlanterAndField, {Planter = planter, NectarBoost = nectarBoost or 0, FieldName = fieldName, FieldLocation = position, PreferedField = true})
                 continue
             end
 
@@ -205,15 +207,22 @@ function PlanterService._GetBestPlanter(Nectar: string)
             for _, planterField in planterInfo.Fields do 
                 if fieldName == planterField then
                     print(planter, nectarBoost, fieldName, position)
-                    table.insert(selectedPlanterAndField, {Planter = planter, NectarBoost = nectarBoost or 0, FieldName = fieldName, FieldLocation = position})
+                    table.insert(selectedPlanterAndField, {Planter = planter, NectarBoost = nectarBoost or 0, FieldName = fieldName, FieldLocation = position, PreferedField = true})
                 end
+            end
+
+            if #selectedPlanterAndFieldLength == #selectedPlanterAndField then
+                print(planter, nectarBoost, fieldName, position, "fallBack")
+                table.insert(selectedPlanterAndField, {Planter = planter, NectarBoost = nectarBoost or 0, FieldName = fieldName, FieldLocation = position, PreferedField = false})
             end
         end
     end
 
-    for index, item in selectedPlanterAndField do 
-        print(index, " - ", item)
-    end
+
+    -- if not activePlanters or #activePlanters == 0 then 
+        
+    -- end
+
 
     -- if bestPlanterName then
     --     print("[PlanterService] Best planter for", Nectar, "is", bestPlanterName, "with boost", bestNectarBoost)
