@@ -211,7 +211,7 @@ function PlanterService._GetBestPlanter(Nectar: string)
                 end
             end
 
-            if #selectedPlanterAndFieldLength == #selectedPlanterAndField then
+            if selectedPlanterAndFieldLength == #selectedPlanterAndField then
                 print(planter, nectarBoost, fieldName, position, "fallBack")
                 table.insert(selectedPlanterAndField, {Planter = planter, NectarBoost = nectarBoost or 0, FieldName = fieldName, FieldLocation = position, PreferedField = false})
             end
