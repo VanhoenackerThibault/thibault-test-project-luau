@@ -347,10 +347,8 @@ function PlanterService.PlanterTick()
         end
 
         local time = nectars[nectar] or 0
-        print(time)
 
         if info.hours * 3600 > time then 
-            print("adding ", nectar ," into planters table")
             table.insert(selectedNectars, nectar)
         end
     end
@@ -360,7 +358,7 @@ function PlanterService.PlanterTick()
     -- local selectedNectar = nil
 
     if not selectedNectars or #selectedNectars == 0 then 
-        warn("No selectedNectars")
+        warn("No selected Nectars")
         return
     end
 
