@@ -241,8 +241,12 @@ function PlanterService._GetBestPlanter(Nectar: string)
     for _, info in ipairs(selectedPlanterAndField) do
         local planterUsed = false
 
+        print("active planters length ", #activePlanters)
+
         for _, planterInfo in ipairs(activePlanters) do
+
             print(tostring(planterInfo.Type), tostring(info.Planter))
+
             if tostring(planterInfo.Type) == tostring(info.Planter) then
                 print("Planter used already")
                 planterUsed = true
