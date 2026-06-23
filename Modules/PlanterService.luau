@@ -398,26 +398,11 @@ function PlanterService.PlanterTick()
         end
     end
 
-
-    -- local littlelestTime = math.huge
-    -- local selectedNectar = nil
-
     if not selectedNectars or #selectedNectars == 0 then 
         warn("No selected Nectars")
         return
     end
 
-    -- if #selectedNectars < BotState.allowedPlanters then
-
-    --     for nectar, time in nectars do 
-    --         if not littlelestTime or time < littlelestTime then 
-    --             littlelestTime = time
-    --             selectedNectar = nectar
-    --         end
-    --     end
-    -- end
-    
-    -- print("Selected nectar: ", selectedNectar)
 
     if not selectedNectars then 
         return
