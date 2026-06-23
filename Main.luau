@@ -310,7 +310,7 @@ Planters:Dropdown({
     Multi = true,
     Value = "None",
     Callback = function(option: any): nil
-        BotState.blackListedFields = httpService:JSONEncode(option)
+        BotState.blackListedFields = option
         print(httpService:JSONEncode(option))
         return
     end,
