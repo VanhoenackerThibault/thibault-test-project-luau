@@ -426,7 +426,9 @@ function PlanterService.PlanterTick()
     end
 
     for _, item in selectedNectars do 
-        print(PlanterService._GetBestPlanter(item))
+        local planterInfo = PlanterService._GetBestPlanter(item)
+
+        PlanterService.PlantPlanter(planterInfo.FieldLocation, planterInfo.Planter)
     end
 
     return 
