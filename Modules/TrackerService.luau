@@ -276,7 +276,6 @@ task.spawn(function()
         
             ensureGuessedPlantTime(actorId)
             BotState.activePlanters[actorId] = info
-            print("activePlanter ", info.Type)
         end
 	end
 end)

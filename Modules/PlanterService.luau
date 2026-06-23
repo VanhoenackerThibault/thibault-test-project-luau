@@ -239,6 +239,7 @@ function PlanterService._GetBestPlanter(Nectar: string)
 
     for _, info in ipairs(selectedPlanterAndField) do
         local planterUsed = false
+        print("getting activeplanters")
         local activePlanters: { any } = BotState.activePlanters
         print("active planters length ", #activePlanters)
 
