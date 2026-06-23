@@ -2,7 +2,6 @@ local BotState = _G.State :: any
 
 local players: Players = game:GetService("Players")
 local localPlayer: Player = players.LocalPlayer
-local activePlanters: { any } = BotState.activePlanters
 
 local replicatedStorage: ReplicatedStorage = game:GetService("ReplicatedStorage")
 local events: ModuleScript = replicatedStorage:WaitForChild("Events") :: ModuleScript
@@ -240,7 +239,7 @@ function PlanterService._GetBestPlanter(Nectar: string)
 
     for _, info in ipairs(selectedPlanterAndField) do
         local planterUsed = false
-
+        local activePlanters: { any } = BotState.activePlanters
         print("active planters length ", #activePlanters)
 
         for _, planterInfo in ipairs(activePlanters) do
