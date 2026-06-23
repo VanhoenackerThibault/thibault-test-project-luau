@@ -186,7 +186,7 @@ function PlanterService._GetBestPlanter(Nectar: string)
 
         local fields = PlanterService.Services.FieldsService.FieldInfo
 
-        for _, fieldName in allowedFields do
+        for fieldName, _ in allowedFields do
             local position = nil
 
             for _, field in fields do 
