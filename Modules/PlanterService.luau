@@ -249,12 +249,12 @@ function PlanterService._GetBestPlanter(Nectar: string)
     end
 
     if bestPlanter then 
-        print("Prefered planter")
+        print("returning prefered planter")
         return bestPlanter
     end
 
     if bestPlanterFallBack then 
-        print("NOT Prefered planter")
+        print("returning NOT Prefered planter")
         return bestPlanterFallBack
     end
 
