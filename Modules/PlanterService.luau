@@ -196,7 +196,8 @@ function PlanterService._GetBestPlanter(Nectar: string)
             end
 
             for _, planterField in planterInfo.Fields do 
-                if fieldName == planterField then 
+                if fieldName == planterField then
+                    print(planter, nectarBoost, fieldName, position)
                     table.insert(selectedPlanterAndField, {Planter = planter, NectarBoost = nectarBoost or 0, FieldName = fieldName, FieldLocation = position})
                 end
             end
@@ -204,7 +205,7 @@ function PlanterService._GetBestPlanter(Nectar: string)
     end
 
     for index, item in selectedPlanterAndField do 
-        print(index< " - ", item)
+        print(index, " - ", item)
     end
 
     -- if bestPlanterName then
