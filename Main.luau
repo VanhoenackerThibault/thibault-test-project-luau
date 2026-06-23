@@ -338,8 +338,8 @@ Planters:Dropdown({
     Value = { "Plastic" },
     Multi = true,
     Callback = function(option) 
-        BotState.selectedPlanters = httpService:JSONEncode(option)
-        print(httpService:JSONEncode(option))
+        BotState.selectedPlanters = option
+        print(option)
     end
 })
 
@@ -452,7 +452,7 @@ Planters:Slider({
     Value = {
         Min = 1,
         Max = 24,
-        Default = 0,
+        Default = 1,
     },
     Callback = function(value: number): nil
         BotState.nectarSettings.Invigorating.hours = value
@@ -498,7 +498,7 @@ Planters:Slider({
     Value = {
         Min = 1,
         Max = 24,
-        Default = 0,
+        Default = 1,
     },
     Callback = function(value: number): nil
         BotState.nectarSettings.Refreshing.hours = value
@@ -544,7 +544,7 @@ Planters:Slider({
     Value = {
         Min = 1,
         Max = 24,
-        Default = 0,
+        Default = 1,
     },
     Callback = function(value: number): nil
         BotState.nectarSettings.Satisfying.hours = value
@@ -590,7 +590,7 @@ Planters:Slider({
     Value = {
         Min = 1,
         Max = 24,
-        Default = 0,
+        Default = 1,
     },
     Callback = function(value: number): nil
         BotState.nectarSettings.Motivating.hours = value
@@ -636,7 +636,7 @@ Planters:Slider({
     Value = {
         Min = 1,
         Max = 24,
-        Default = 0,
+        Default = 1,
     },
     Callback = function(value: number): nil
         BotState.nectarSettings.Comforting.hours = value
