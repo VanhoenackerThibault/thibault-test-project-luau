@@ -195,6 +195,12 @@ function PlanterService._GetBestPlanter(Nectar: string)
                 end
             end
 
+            if not planterInfo.Fields then 
+                print(planter, nectarBoost, fieldName, position)
+                table.insert(selectedPlanterAndField, {Planter = planter, NectarBoost = nectarBoost or 0, FieldName = fieldName, FieldLocation = position})
+            end
+
+
             for _, planterField in planterInfo.Fields do 
                 if fieldName == planterField then
                     print(planter, nectarBoost, fieldName, position)
