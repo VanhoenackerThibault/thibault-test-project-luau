@@ -186,7 +186,6 @@ function PlanterService._GetBestPlanter(Nectar: string)
 
         local fields = PlanterService.Services.FieldsService.FieldInfo
 
-        print("====================================================================================================")
         for fieldName, _ in allowedFields do
             local position = nil
             local selectedPlanterAndFieldLength = #selectedPlanterAndField
@@ -222,12 +221,6 @@ function PlanterService._GetBestPlanter(Nectar: string)
         return table1.NectarBoost > table2.NectarBoost
     end)
 
-    for index, item in selectedPlanterAndField do
-        for index2, item2 in item do 
-            print(index2, item2)
-        end
-    end
-
     for _, info in selectedPlanterAndField do 
         local planterUsed = false
 
@@ -241,15 +234,15 @@ function PlanterService._GetBestPlanter(Nectar: string)
         if planterUsed then
             continue
         end
-
+        
+        print("====================================================================================================")
         if not bestPlanter or bestPlanter.NectarBoost < info.NectarBoost and info.PreferedField then
             print(info.Planter, info.NectarBoost, info.PreferedField)
             bestPlanter = info
         end
 
         if not bestPlanterFallBack or bestPlanterFallBack.NectarBoost < info.NectarBoost and not info.PreferedField then
-            print("FALLBACK")
-            print(info.Planter, info.NectarBoost, info.PreferedField)
+            print(info.Planter, info.NectarBoost, info.PreferedField, "FALLBACK")
             bestPlanterFallBack = info
         end
     end
