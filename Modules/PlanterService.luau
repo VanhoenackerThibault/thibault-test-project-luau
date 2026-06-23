@@ -327,7 +327,7 @@ function PlanterService.PlanterTick()
     local nectars = BotState.nactarTimers
     local settings = BotState.nectarSettings
 
-    local planters = {}
+    local selectedNectars = {}
 
     for nectar, info in settings do 
         if not info.enabled then 
@@ -337,43 +337,43 @@ function PlanterService.PlanterTick()
         local time = nectars[nectar] or 0
         print(time)
 
-        if time and ((info.hours * 60) * 60) < time then 
+        if info.hours * 3600 > time then 
             print("adding ", nectar ," into planters table")
-            table.insert(planters, nectar)
+            table.insert(selectedNectars, nectar)
         end
     end
 
 
-    local littlelestTime = math.huge
-    local selectedNectar = nil
+    -- local littlelestTime = math.huge
+    -- local selectedNectar = nil
 
-    if not planters or #planters == 0 then 
-        warn("No planters selected")
+    if not selectedNectars or #selectedNectars == 0 then 
+        warn("No selectedNectars")
         return
     end
 
-    if #planters < BotState.allowedPlanters then
+    -- if #selectedNectars < BotState.allowedPlanters then
 
-        for nectar, time in nectars do 
-            if not littlelestTime or time < littlelestTime then 
-                littlelestTime = time
-                selectedNectar = nectar
-            end
-        end
-    end
+    --     for nectar, time in nectars do 
+    --         if not littlelestTime or time < littlelestTime then 
+    --             littlelestTime = time
+    --             selectedNectar = nectar
+    --         end
+    --     end
+    -- end
     
-    print("Selected nectar: ", selectedNectar)
+    -- print("Selected nectar: ", selectedNectar)
 
-    if not planters then 
+    if not selectedNectars then 
         return
     end
 
-    if #planters == 0 then 
+    if #selectedNectars == 0 then 
         return
     end
 
-    for _, item in planters do 
-        PlanterService._GetBestPlanter(item)
+    for _, item in selectedNectars do 
+        print(PlanterService._GetBestPlanter(item))
     end
 
     return 
