@@ -331,10 +331,10 @@ function PlanterService.PlantPlanter(position: Vector3, planter: string)
         return 
     end
 
-    PlanterService.Services.TweenService.TweenPlayer(position)
+    PlanterService.Services.TweenService.TweenPlayer(position + Vector3.new(0, 10, 0))
 
     task.wait(0.5)
-
+    print(planter)
     PlayerActivesCommand:FireServer({Name = planter})
 
     print("[PlanterService] Planter Placed")
