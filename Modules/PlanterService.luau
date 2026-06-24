@@ -6,7 +6,7 @@ local localPlayer: Player = players.LocalPlayer
 local replicatedStorage: ReplicatedStorage = game:GetService("ReplicatedStorage")
 local events: ModuleScript = replicatedStorage:WaitForChild("Events") :: ModuleScript
 local planterCollectEvent: RemoteEvent = events:WaitForChild("PlanterModelCollect") :: RemoteEvent
-local PlayerActivesCommand: RemoteEvent = events:WaitForChild("PlayerActivesCommand"):: RemoteEvent
+local PlayerActivesCommand: RemoteEvent = events:WaitForChild("PlayerActivesCommand") :: RemoteEvent
 local clientStatCache = require(game.ReplicatedStorage.ClientStatCache)
 
 local PlanterService = {}
@@ -15,125 +15,125 @@ local planterInfoMap = {
     ["Paper"] = {
         Fields = nil,
         NectarBoosts = {
-            Comforting  = 0.75,
-            Motivating  = 0.75,
-            Satisfying  = 0.75,
-            Refreshing  = 0.75,
+            Comforting   = 0.75,
+            Motivating   = 0.75,
+            Satisfying   = 0.75,
+            Refreshing   = 0.75,
             Invigorating = 0.75,
         },
     },
     ["Ticket"] = {
         Fields = nil,
         NectarBoosts = {
-            Comforting  = 2,
-            Motivating  = 2,
-            Satisfying  = 2,
-            Refreshing  = 2,
+            Comforting   = 2,
+            Motivating   = 2,
+            Satisfying   = 2,
+            Refreshing   = 2,
             Invigorating = 2,
         },
     },
     ["Sticker"] = {
         Fields = nil,
         NectarBoosts = {
-            Motivating = 2,
-            Satisfying = 2,
-            Comforting = 2,
+            Motivating   = 2,
+            Satisfying   = 2,
+            Comforting   = 2,
             Invigorating = 2,
-            Refreshing = 2
+            Refreshing   = 2
         },
     },
     ["Festive"] = {
         Fields = nil,
         NectarBoosts = {
-            Comforting  = 3,
-            Motivating  = 3,
-            Satisfying  = 3,
-            Refreshing  = 3,
+            Comforting   = 3,
+            Motivating   = 3,
+            Satisfying   = 3,
+            Refreshing   = 3,
             Invigorating = 3,
         },
     },
     ["Plastic"] = {
         Fields = nil,
         NectarBoosts = {
-            Comforting  = 1,
-            Motivating  = 1,
-            Satisfying  = 1,
-            Refreshing  = 1,
+            Comforting   = 1,
+            Motivating   = 1,
+            Satisfying   = 1,
+            Refreshing   = 1,
             Invigorating = 1,
         },
     },
     ["Candy"] = {
         Fields = {"Strawberry Field", "Pineapple Patch", "Coconut Field"},
         NectarBoosts = {
-            Motivating  = 1.2,
+            Motivating = 1.2,
         },
     },
     ["Red Clay"] = {
         Fields = {"Pepper Patch", "Rose Field", "Mushroom Field", "Strawberry Field"},
         NectarBoosts = {
             Invigorating = 1.2,
-            Satisfying  = 1.2,
+            Satisfying = 1.2,
         },
     },
     ["Blue Clay"] = {
         Fields = {"Blue Flower Field", "Pine Tree Forest", "Bamboo Field", "Stump Field"},
         NectarBoosts = {
             Refreshing = 1.2,
-            Comforting  = 1.2,
+            Comforting = 1.2,
         },
     },
     ["Tacky"] = {
         Fields = {"Sunflower Field", "Dandelion Field"},
         NectarBoosts = {
             Satisfying = 1.25,
-            Comforting  = 1.25,
+            Comforting = 1.25,
         },
     },
     ["Pesticide"] = {
         Fields = {"Spider Field", "Sunflower Field", "Pineapple Patch", "Pumpkin Patch"},
         NectarBoosts = {
             Motivating = 1.25,
-            Satisfying  = 1.25,
+            Satisfying = 1.25,
         },
     },
     ["Heat-Treated"] = {
         Fields = {"Pepper Patch", "Rose Field", "Mushroom Field", "Strawberry Field"},
         NectarBoosts = {
             Motivating = 1.3,
-            Invigorating  = 1.3,
+            Invigorating = 1.3,
         },
     },
     ["Hydroponic"] = {
         Fields = {"Blue Flower Field", "Pine Tree Forest", "Bamboo Field", "Stump Field"},
         NectarBoosts = {
             Refreshing = 1.3,
-            Comforting  = 1.3,
+            Comforting = 1.3,
         },
     },
     ["Petal"] = {
         Fields = {"Pineapple Patch", "Dandelion Field", "Coconut Field", "Sunflower Field", "Pumpkin Patch"},
         NectarBoosts = {
             Satisfying = 1.5,
-            Comforting  = 1.5,
+            Comforting = 1.5,
         },
     },
     ["Plenty"] = {
         Fields = {"Pepper Patch", "Stump Field", "Mountain Top Field", "Coconut Field"},
         NectarBoosts = {
-            Comforting  = 1.5,
-            Motivating  = 1.5,
-            Satisfying  = 1.5,
-            Refreshing  = 1.5,
+            Comforting = 1.5,
+            Motivating = 1.5,
+            Satisfying = 1.5,
+            Refreshing = 1.5,
             Invigorating = 1.5,
         },
     },
 }
 
 local fieldsToNactar = {
-    Comforting  = {"Dandelion Field", "Bamboo Field", "Pine Tree Forest"},
-    Motivating  = {"Mushroom Field", "Spider Field", "Stump Field", "Rose Field"},
+    Comforting = {"Dandelion Field", "Bamboo Field", "Pine Tree Forest"},
+    Motivating = {"Mushroom Field", "Spider Field", "Stump Field", "Rose Field"},
     Satisfying  = {"Sunflower Field", "Pineapple Patch", "Pumpkin Patch"},
-    Refreshing  = {"Blue Flower Field", "Strawberry Field", "Coconut Field"},
+    Refreshing = {"Blue Flower Field", "Strawberry Field", "Coconut Field"},
     Invigorating = {"Clover Field", "Cactus Field", "Mountain Top Field", "Pepper Patch"},
 }
 
@@ -151,9 +151,8 @@ local planterTypeToName = {
     ["Heat-Treated"] = "Heat-Treated Planter",
     ["Hydroponic"] = "Hydroponic Planter",
     ["Petal"] = "Petal Planter",
-    ["Plenty"] = "The Planter Of Plenty"
+    ["Plenty"] = "The Planter Of Plenty",
 }
-
 
 function PlanterService.Init(services)
     PlanterService.Services = services
@@ -175,93 +174,109 @@ function PlanterService._GetBestPlanter(Nectar: string)
     end
 
     -- If no allowed fields left, nothing to plant
-    if not allowedFields then
+    if next(allowedFields) == nil then
         return nil
     end
 
     print(#BotState.selectedPlanters)
-
     print(BotState.selectedPlanters)
 
-    for index, item in BotState.selectedPlanters do 
+    for index, item in ipairs(BotState.selectedPlanters) do
         print(index, item)
     end
 
-    if #BotState.selectedPlanters == 0 then 
+    if next(BotState.selectedPlanters) == nil then
         warn("No planter selected")
     end
 
     local selectedPlanterAndField = {}
 
     -- Scan selected planters
-    for _, planter: string in BotState.selectedPlanters do
+    for _, planter: string in ipairs(BotState.selectedPlanters) do
         local planterInfo = planterInfoMap[planter]
-        if not planterInfo then continue end
+        if not planterInfo then
+            continue
+        end
 
-        local nectarBoost = planterInfo.NectarBoosts[Nectar]
-
+        local nectarBoost = planterInfo.NectarBoosts[Nectar] or 0
         local fields = PlanterService.Services.FieldsService.FieldInfo
 
-        for fieldName, _ in allowedFields do
+        for fieldName in pairs(allowedFields) do
             local position = nil
-            local selectedPlanterAndFieldLength = #selectedPlanterAndField
+            local matchedPreferred = false
 
-            for _, field in fields do 
-                if fieldName == field.Name then 
+            -- Find field position
+            for _, field in ipairs(fields) do
+                if fieldName == field.Name then
                     position = field.Position
+                    break
                 end
             end
 
-            if not planterInfo.Fields then 
-                table.insert(selectedPlanterAndField, {Planter = planter, NectarBoost = nectarBoost or 0, FieldName = fieldName, FieldLocation = position, PreferedField = true})
-                continue
-            end
-
-
-            for _, planterField in planterInfo.Fields do 
-                if fieldName == planterField then
-                    table.insert(selectedPlanterAndField, {Planter = planter, NectarBoost = nectarBoost or 0, FieldName = fieldName, FieldLocation = position, PreferedField = true})
+            if not planterInfo.Fields then
+                matchedPreferred = true
+                table.insert(selectedPlanterAndField, {
+                    Planter       = planter,
+                    NectarBoost   = nectarBoost,
+                    FieldName     = fieldName,
+                    FieldLocation = position,
+                    PreferedField = true,
+                })
+            else
+                for _, planterField in ipairs(planterInfo.Fields) do
+                    if fieldName == planterField then
+                        matchedPreferred = true
+                        table.insert(selectedPlanterAndField, {
+                            Planter       = planter,
+                            NectarBoost   = nectarBoost,
+                            FieldName     = fieldName,
+                            FieldLocation = position,
+                            PreferedField = true,
+                        })
+                        break
+                    end
                 end
             end
 
-            if selectedPlanterAndFieldLength == #selectedPlanterAndField then
-                table.insert(selectedPlanterAndField, {Planter = planter, NectarBoost = nectarBoost or 0, FieldName = fieldName, FieldLocation = position, PreferedField = false})
+            -- Fallback if no preferred field match was added
+            if not matchedPreferred then
+                table.insert(selectedPlanterAndField, {
+                    Planter       = planter,
+                    NectarBoost   = nectarBoost,
+                    FieldName     = fieldName,
+                    FieldLocation = position,
+                    PreferedField = false,
+                })
             end
         end
     end
 
+    -- Build a quick set of active planter types to skip reusing them
+    local activeByType: { [string]: boolean } = {}
+    local activePlanters: { any } = BotState.activePlanters
+
+    for _, planterInfo in pairs(activePlanters) do
+        if planterInfo.Type ~= nil then
+            activeByType[tostring(planterInfo.Type)] = true
+        end
+    end
+
+    table.sort(selectedPlanterAndField, function(a, b)
+        return a.NectarBoost > b.NectarBoost
+    end)
+
     local bestPlanter = nil
     local bestPlanterFallBack = nil
 
-    table.sort(selectedPlanterAndField, function(table1, table2)
-        return table1.NectarBoost > table2.NectarBoost
-    end)
-
     for _, info in ipairs(selectedPlanterAndField) do
-        local planterUsed = false
-
-        print("getting activeplanters")
-        local activePlanters: { any } = BotState.activePlanters
-        print("active planters length ", #activePlanters)
-
-        for _, planterInfo in ipairs(activePlanters) do
-
-            print(tostring(planterInfo.Type), tostring(info.Planter))
-
-            if tostring(planterInfo.Type) == tostring(info.Planter) then
-                print("Planter used already")
-                planterUsed = true
-                break
-            end
-        end
-
-        if planterUsed then
+        if activeByType[tostring(info.Planter)] then
+            print("Planter used already", info.Planter)
             continue
         end
 
         if info.PreferedField then
             if not bestPlanter or bestPlanter.NectarBoost < info.NectarBoost then
-                print(info.Planter, info.NectarBoost, info.PreferedField, "PREFERD")
+                print(info.Planter, info.NectarBoost, info.PreferedField, "PREFERRED")
                 bestPlanter = info
             end
         else
@@ -272,13 +287,13 @@ function PlanterService._GetBestPlanter(Nectar: string)
         end
     end
 
-    if bestPlanter then 
-        print("returning prefered planter")
+    if bestPlanter then
+        print("returning preferred planter")
         return bestPlanter
     end
 
-    if bestPlanterFallBack then 
-        print("returning NOT Prefered planter")
+    if bestPlanterFallBack then
+        print("returning NOT preferred planter")
         return bestPlanterFallBack
     end
 
@@ -286,9 +301,9 @@ function PlanterService._GetBestPlanter(Nectar: string)
 end
 
 function PlanterService._CollectPlanter(position: Vector3, planterId: number)
-    if not position then 
+    if not position then
         warn("[PlanterService] collectPlanter was called without position")
-        return 
+        return
     end
 
     PlanterService.Services.TweenService.TweenPlayer(position + Vector3.new(0, 10, 0))
@@ -297,7 +312,7 @@ function PlanterService._CollectPlanter(position: Vector3, planterId: number)
 
     planterCollectEvent:FireServer(planterId)
 
-    for index, item in BotState.activePlanters do
+    for index, item in pairs(BotState.activePlanters) do
         print(index, item)
     end
 
@@ -323,9 +338,9 @@ end
 
 function PlanterService._CheckGrowthPercent(): { any }
     local selectedPlanters = {}
-    
+
     for _, planter in pairs(BotState.activePlanters) do
-        if planter.GrowthPercent >= (BotState.collectAtPercentage / 100) then 
+        if planter.GrowthPercent >= (BotState.collectAtPercentage / 100) then
             print("planter has grown enough, time to go")
             table.insert(selectedPlanters, planter)
         end
@@ -335,16 +350,16 @@ function PlanterService._CheckGrowthPercent(): { any }
 end
 
 function PlanterService.PlantPlanter(position: Vector3, planter: string)
-    if not position then 
+    if not position then
         warn("[PlanterService] PlantPlanter was called without position")
-        return 
+        return
     end
 
     PlanterService.Services.TweenService.TweenPlayer(position + Vector3.new(0, 10, 0))
 
     task.wait(0.5)
     print(planter)
-    PlayerActivesCommand:FireServer({Name = planter})
+    PlayerActivesCommand:FireServer({ Name = planter })
 
     print("[PlanterService] Planter Placed")
 end
@@ -352,21 +367,21 @@ end
 function PlanterService.CanFarmPlanter(): boolean
     local collectPlanters
 
-    if #BotState.activePlanters == 0 then 
+    if next(BotState.activePlanters) == nil then
         return true
     end
-    
-    if BotState.collectEveryEnabled then 
+
+    if BotState.collectEveryEnabled then
         collectPlanters = PlanterService._CheckCollectEveryHour()
     elseif BotState.collectAtPercentageEnabled then
         collectPlanters = PlanterService._CheckGrowthPercent()
     end
 
-    if not collectPlanters then 
+    if not collectPlanters then
         return false
     end
 
-    if #collectPlanters == 0 then 
+    if next(collectPlanters) == nil then
         return false
     end
 
@@ -380,22 +395,23 @@ function PlanterService.PlanterTick()
         return
     end
 
-    for index, item in BotState.activePlanters do 
-        for index2, item2 in item do 
-            print(index2, item2)
+    for index, item in pairs(BotState.activePlanters) do
+        print("Active planter index:", index)
+        for key, value in pairs(item) do
+            print(key, value)
         end
     end
 
     local collectPlanters
 
-    if BotState.collectEveryEnabled then 
+    if BotState.collectEveryEnabled then
         collectPlanters = PlanterService._CheckCollectEveryHour()
     elseif BotState.collectAtPercentageEnabled then
         collectPlanters = PlanterService._CheckGrowthPercent()
     end
 
-    if collectPlanters and #collectPlanters > 0 then 
-        for _, planter in collectPlanters do 
+    if collectPlanters and next(collectPlanters) ~= nil then
+        for _, planter in ipairs(collectPlanters) do
             PlanterService._CollectPlanter(planter.Pos, planter.ActorID)
         end
     end
@@ -405,44 +421,37 @@ function PlanterService.PlanterTick()
 
     local selectedNectars = {}
 
-    for nectar, info in settings do 
-        if not info.enabled then 
+    for nectar, info in pairs(settings) do
+        if not info.enabled then
             continue
         end
 
         local time = nectars[nectar] or 0
 
-        if info.hours * 3600 > time then 
+        if info.hours * 3600 > time then
             table.insert(selectedNectars, nectar)
         end
     end
 
-    if not selectedNectars or #selectedNectars == 0 then 
+    if not selectedNectars or #selectedNectars == 0 then
         warn("No selected Nectars")
-        return
-    end
-
-
-    if not selectedNectars then 
-        return
-    end
-
-    if #selectedNectars == 0 then 
         return
     end
 
     BotState.gettingNectar = true
 
-    for _, item in selectedNectars do 
-        local planterInfo = PlanterService._GetBestPlanter(item)
-        
-        PlanterService.PlantPlanter(planterInfo.FieldLocation, planterTypeToName[planterInfo.Planter])
+    for _, nectarName in ipairs(selectedNectars) do
+        local planterInfo = PlanterService._GetBestPlanter(nectarName)
+        if planterInfo and planterInfo.FieldLocation and planterInfo.Planter then
+            PlanterService.PlantPlanter(planterInfo.FieldLocation, planterTypeToName[planterInfo.Planter])
+        else
+            warn("No valid planter found for nectar ", nectarName)
+        end
     end
 
     BotState.gettingNectar = false
 
-    return 
+    return
 end
-
 
 return PlanterService
