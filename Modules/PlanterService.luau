@@ -396,12 +396,6 @@ function PlanterService.PlanterTick()
     --     return
     -- end
 
-    for index, item in pairs(BotState.activePlanters) do
-        print("Active planter index:", index)
-        for key, value in pairs(item) do
-            print(key, value)
-        end
-    end
 
     local collectPlanters
 
@@ -411,10 +405,15 @@ function PlanterService.PlanterTick()
         collectPlanters = PlanterService._CheckGrowthPercent()
     end
 
+
+    
     if collectPlanters and next(collectPlanters) ~= nil then
+        BotState.gettingNectar = true
         for _, planter in ipairs(collectPlanters) do
             PlanterService._CollectPlanter(planter.Pos, planter.ActorID)
         end
+
+        BotState.gettingNectar = false
     end
 
     local nectars = BotState.nactarTimers
@@ -444,7 +443,7 @@ function PlanterService.PlanterTick()
     end
 
     -- BotState.gettingNectar = true
-
+    BotState.gettingNectar = true
     for _, nectarName in ipairs(selectedNectars) do
 
         local activePlanters: { any } = BotState.activePlanters
@@ -461,7 +460,7 @@ function PlanterService.PlanterTick()
         end
     end
 
-    -- BotState.gettingNectar = false
+    BotState.gettingNectar = false
 
     return
 end

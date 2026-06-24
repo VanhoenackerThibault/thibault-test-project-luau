@@ -330,7 +330,7 @@ function FarmService.FarmTick(): nil
             end
             
             for _, itemdict: { item: Part, dist: number } in pairs(nearestTokens) do
-                if not BotState.farmRunning or not BotState.autoFarmEnabled or BotState.scriptStopped then
+                if not BotState.farmRunning or not BotState.autoFarmEnabled and BotState.gettingNectar or BotState.scriptStopped then
                     print("[FarmService] Farm task canceled")
                     BotState.farmRunning = false
                     return
