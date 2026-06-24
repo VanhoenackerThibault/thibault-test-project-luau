@@ -7,7 +7,8 @@ local replicatedStorage: ReplicatedStorage = game:GetService("ReplicatedStorage"
 local events: ModuleScript = replicatedStorage:WaitForChild("Events") :: ModuleScript
 local planterCollectEvent: RemoteEvent = events:WaitForChild("PlanterModelCollect") :: RemoteEvent
 local PlayerActivesCommand: RemoteEvent = events:WaitForChild("PlayerActivesCommand") :: RemoteEvent
-local clientStatCache = require(game.ReplicatedStorage.ClientStatCache)
+local OstimeModule: ModuleScript = replicatedStorage:FindFirstChild("OsTime") :: ModuleScript
+local OsTime = require(OstimeModule)
 
 local PlanterService = {}
 
@@ -326,8 +327,8 @@ function PlanterService._CheckCollectEveryHour(): { any }
 
     for _, planter in pairs(BotState.activePlanters) do
         local collectAfter = planter.guessedPlantTime + (BotState.collectEvery * 60 * 60)
-        print(collectAfter, tick())
-        if collectAfter <= tick() then
+        print(collectAfter, OsTime())
+        if collectAfter <= OsTime() then
             print("planter has stayed long enough, time to go")
             table.insert(selectedPlanters, planter)
         end
@@ -433,6 +434,14 @@ function PlanterService.PlanterTick()
         end
     end
 
+    table.sort(selectedNectars, function(table1, table2)
+        return table1.priority > table2.priority        
+    end)
+
+    for index, item in pairs(selectedNectars) do 
+        print(index, item)
+    end
+
     if not selectedNectars or #selectedNectars == 0 then
         warn("No selected Nectars")
         return
@@ -441,7 +450,14 @@ function PlanterService.PlanterTick()
     BotState.gettingNectar = true
 
     for _, nectarName in ipairs(selectedNectars) do
+
+        local activePlanters: { any } = BotState.activePlanters
+        if #activePlanters >= BotState.allowedPlanters then 
+            continue
+        end
+
         local planterInfo = PlanterService._GetBestPlanter(nectarName)
+
         if planterInfo and planterInfo.FieldLocation and planterInfo.Planter then
             PlanterService.PlantPlanter(planterInfo.FieldLocation, planterTypeToName[planterInfo.Planter])
         else
