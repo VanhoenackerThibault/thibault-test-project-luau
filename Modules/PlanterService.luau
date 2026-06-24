@@ -374,7 +374,9 @@ function PlanterService.CanFarmPlanter(): boolean
 end
 
 function PlanterService.PlanterTick()
-    if BotState.gettingNectar then 
+    print(BotState.gettingNectar)
+    if BotState.gettingNectar then
+        print("getting nectar true, returning")
         return
     end
 
