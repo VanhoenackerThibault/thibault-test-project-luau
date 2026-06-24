@@ -239,7 +239,7 @@ function PlanterService._GetBestPlanter(Nectar: string)
 
     for _, info in ipairs(selectedPlanterAndField) do
         local planterUsed = false
-        
+
         print("getting activeplanters")
         local activePlanters: { any } = BotState.activePlanters
         print("active planters length ", #activePlanters)
@@ -374,6 +374,16 @@ function PlanterService.CanFarmPlanter(): boolean
 end
 
 function PlanterService.PlanterTick()
+    if BotState.gettingNectar then 
+        return
+    end
+
+    for index, item in BotState.activePlanters do 
+        for index2, item2 in item do 
+            print(index2, item2)
+        end
+    end
+
     local collectPlanters
 
     if BotState.collectEveryEnabled then 
@@ -419,11 +429,15 @@ function PlanterService.PlanterTick()
         return
     end
 
+    BotState.gettingNectar = true
+
     for _, item in selectedNectars do 
         local planterInfo = PlanterService._GetBestPlanter(item)
         
         PlanterService.PlantPlanter(planterInfo.FieldLocation, planterTypeToName[planterInfo.Planter])
     end
+
+    BotState.gettingNectar = false
 
     return 
 end

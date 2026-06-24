@@ -38,7 +38,8 @@ export type BotState = {
     collectAtPercentageEnabled: boolean,
     collectAtPercentage: number,
     allowedPlanters: number,
-    nactarTimers: {[string]: string}
+    nactarTimers: {[string]: string},
+    gettingNectar: boolean
 }
 
 local BotState: BotState = {
@@ -85,7 +86,8 @@ local BotState: BotState = {
     collectAtPercentageEnabled = false,
     collectAtPercentage = 100,
     allowedPlanters = 3,
-    nactarTimers = {}
+    nactarTimers = {},
+    gettingNectar = false
 }
 
 return BotState
