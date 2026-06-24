@@ -390,11 +390,11 @@ function PlanterService.CanFarmPlanter(): boolean
 end
 
 function PlanterService.PlanterTick()
-    print(BotState.gettingNectar)
-    if BotState.gettingNectar then
-        print("getting nectar true, returning")
-        return
-    end
+    -- print(BotState.gettingNectar)
+    -- if BotState.gettingNectar then
+    --     print("getting nectar true, returning")
+    --     return
+    -- end
 
     for index, item in pairs(BotState.activePlanters) do
         print("Active planter index:", index)
@@ -420,6 +420,10 @@ function PlanterService.PlanterTick()
     local nectars = BotState.nactarTimers
     local settings = BotState.nectarSettings
 
+    table.sort(settings, function(table1, table2)
+        return table1.priority > table2.priority        
+    end)
+
     local selectedNectars = {}
 
     for nectar, info in pairs(settings) do
@@ -434,20 +438,12 @@ function PlanterService.PlanterTick()
         end
     end
 
-    table.sort(selectedNectars, function(table1, table2)
-        return table1.priority > table2.priority        
-    end)
-
-    for index, item in pairs(selectedNectars) do 
-        print(index, item)
-    end
-
     if not selectedNectars or #selectedNectars == 0 then
         warn("No selected Nectars")
         return
     end
 
-    BotState.gettingNectar = true
+    -- BotState.gettingNectar = true
 
     for _, nectarName in ipairs(selectedNectars) do
 
@@ -465,7 +461,7 @@ function PlanterService.PlanterTick()
         end
     end
 
-    BotState.gettingNectar = false
+    -- BotState.gettingNectar = false
 
     return
 end
